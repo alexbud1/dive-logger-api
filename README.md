@@ -1,5 +1,24 @@
-# async-fastapi-mongo
+# Dive Logger API
 
-Repository housing code for the Testdriven article.
+This is a REST API for Dive Logger. Developed for educational and personal purposes.
 
-[https://testdriven.io/blog/fastapi-mongo/](https://testdriven.io/blog/fastapi-mongo/)
+
+
+
+## Tech Stack
+
+**Rest Api:** Python, FastApi
+
+**Database:** MongoDB, Motor(Async driver for Python)
+
+
+
+## Features
+
+- Saving/Updating/Retrieving user profiles(in progress)
+- Authentication + Authorization(upcoming)
+- Logging for important events
+
+
+Other features would be described here later...
+
