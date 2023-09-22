@@ -3,21 +3,21 @@ from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 
 
-class StudentSchema(BaseModel):
-    fullname: str = Field(...)
-    email: EmailStr = Field(...)
-    course_of_study: str = Field(...)
-    year: int = Field(..., gt=0, lt=9)
-    gpa: float = Field(..., le=4.0)
+class UserProfileSchema(BaseModel):
+    name: str
+    is_diver: bool
+    amount_of_dives: int = None
+    country: str = None
+    profile_photo: str = None
 
     class Config:
         schema_extra = {
             "example": {
-                "fullname": "John Doe",
-                "email": "jdoe@x.edu.ng",
-                "course_of_study": "Water resources engineering",
-                "year": 2,
-                "gpa": "3.0",
+                "name": "John Doe",
+                "is_diver": True,
+                "amount_of_dives": 100,
+                "country": "Nigeria",
+                "profile_photo": "link_to_profile_photo",
             }
         }
 
