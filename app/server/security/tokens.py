@@ -62,6 +62,8 @@ async def check_is_token_active(token: str) -> bool | HTTPException:
     token_found = await database.tokens.find_one({"hashed_token": hashed_token})
 
     if token_found is None:
-        raise HTTPException(status_code=403, detail="Token is not active")
-    else:
+        raise HTTPException(status_code=403, detail="Token is invalid")
+    elif token_found["is_active"] is True and token_found["hashed_token"] == hashed_token:
         return True
+    else:
+        raise HTTPException(status_code=403, detail="Token is not active")
