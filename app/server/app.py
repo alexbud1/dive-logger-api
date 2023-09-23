@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from server.database.database import database
 from server.routes.user_profile import router as UserProfileRouter
 from server.logging.logging import logger
-
 app = FastAPI()
 
 app.include_router(UserProfileRouter, tags=["UserProfile"], prefix="/user_profile")
