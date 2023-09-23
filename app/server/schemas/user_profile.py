@@ -1,14 +1,23 @@
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, Field
-
+from pydantic import BaseModel, EmailStr, Field, validator
+import regex as re
 
 class UserProfileSchema(BaseModel):
-    name: str
-    is_diver: bool
-    amount_of_dives: int = None
-    country: str = None
-    profile_photo: str = None
+    name: str = Field(..., example="John Doe", description="Name of the user(it would be seen by other divers). Only letters allowed", max_length=100, min_length=3)
+    is_diver: bool = Field(..., example=True, description="Boolean value that indicates if the user is a diver or not")
+    amount_of_dives: int = Field(None, example=100, description="Amount of dives the user has done. Only numbers allowed.", ge=0, le=20000)
+    country: str = Field(None, example="Nigeria", description="Country of the user. Only letters allowed. Country is not validated.", max_length=100, min_length=3)
+    profile_photo: str = Field(None, example="link_to_profile_photo", description="Link to the user's profile photo. This field is not validated", max_length=250, min_length=10)
+
+    @validator("*")
+    def validate_fields(cls, value, field):
+        # Check if the field name is "name" or "country" and validate accordingly
+        if field.name in ["name", "country"]:
+            # Regex pattern that allows only letters, spaces, and hyphens
+            if not re.match(r'^[\p{L} -]+$', value, re.UNICODE):
+                raise ValueError(f"{field.name} must consist of letters, spaces, or hyphens only")
+        return value
 
     class Config:
         schema_extra = {
@@ -44,7 +53,6 @@ class UpdateStudentModel(BaseModel):
 def ResponseModel(data, message):
     return {
         "data": [data],
-        "code": 200,
         "message": message,
     }
 
