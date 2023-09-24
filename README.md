@@ -16,8 +16,10 @@ This is a REST API for Dive Logger. Developed for educational and personal purpo
 
 ## Features
 
-- Saving/Updating/Retrieving user profiles(in progress)
+- Saving/Retrieving user profiles(done)
 - Authorization(done)
+- Logging dives(soon)
+- Retrieving logged dives(soon)
 
 
 Other features would be described here later...
