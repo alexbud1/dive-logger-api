@@ -25,7 +25,6 @@ class Database:
 
         # Get a list of collection names from the database
         collection_names = await self.database.list_collection_names()
-
         # Dynamically create attributes for collection names
         for collection_name in collection_names:
             setattr(self, collection_name, self.database[collection_name])
