@@ -9,7 +9,7 @@ class UserProfile:
     amount_of_dives: int = None
     country: str = None
     profile_photo: str = None
-    telegram_id: int = None
+    telegram_id: str = None
 
     def __init__(self, data_dict) -> None:
         self.name = data_dict.get("name")

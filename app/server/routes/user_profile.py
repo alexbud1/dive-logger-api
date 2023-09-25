@@ -40,7 +40,7 @@ async def get_user_profile_data(telegram_id: int, token: str = Depends(verify_to
     """
     Retrieving user profile data from database by telegram_id.
     """
-    user_profile = await UserProfile.get_document_by_parameter("telegram_id", telegram_id)
+    user_profile = await UserProfile.get_document_by_parameter("telegram_id", str(telegram_id))
     if user_profile is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
