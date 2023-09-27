@@ -2,6 +2,9 @@ from server.database.database import database
 from fastapi import HTTPException, status
 from pymongo.errors import DuplicateKeyError
 from server.logging.logging import logger
+import json
+from bson import json_util
+
 
 class UserProfile:
     name: str
@@ -45,6 +48,22 @@ class UserProfile:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
             )
     
+    @staticmethod
+    async def patch(telegram_id: str, data_dict: dict) -> dict:
+        try:
+            # Convert the data_dict to BSON using json_util
+            # update_data = {"$set": json_util.loads(json.dumps(data_dict))}
+            
+            response = await database.user_profiles.update_one({"telegram_id": telegram_id}, {"$set": data_dict})
+            
+            # logger.info(f"User {data_dict['name']} updated successfully")
+            return response
+        except Exception as e:
+            # logger.error(f"Error updating user {data_dict['name']} in the database: {e}")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
+
     @staticmethod
     async def get_document_by_parameter(parameter, value):
         try:

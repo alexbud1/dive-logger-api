@@ -5,10 +5,12 @@ from server.logging.logging import logger
 from server.models.user_profile import UserProfile
 from server.schemas.user_profile import (
     UserProfileSchema,
+    UpdateUserProfileSchema
 )
 from server.security.tokens import verify_token
 from fastapi import status
 import json
+from server.database.database import database
 
 router = APIRouter()
 
@@ -50,3 +52,25 @@ async def get_user_profile_data(telegram_id: int, token: str = Depends(verify_to
     return JSONResponse(
         content=user_profile, status_code=status.HTTP_200_OK
     )
+
+@router.patch('/{telegram_id}', response_description="User profile data updated by telegram_id", response_model=UserProfileSchema, status_code=status.HTTP_200_OK)
+async def update_user_profile_data(telegram_id: int, user_profile: UpdateUserProfileSchema = Body(...), token: str = Depends(verify_token)):
+    """
+    Updating user profile data in database by telegram_id.
+    """
+    telegram_id = str(telegram_id)
+    input_data = {key: value for key, value in user_profile.dict().items() if value is not None}
+
+    # check if any fields should be updated
+    if len(input_data) >= 1:
+        update_result = await UserProfile.patch(telegram_id, input_data)
+        if update_result.modified_count == 1:
+            if (
+                updated_user_profile := await UserProfile.get_document_by_parameter("telegram_id", telegram_id)
+            ) is not None:
+                return updated_user_profile
+
+    if (existing_user_profile := await UserProfile.get_document_by_parameter("telegram_id", telegram_id)) is not None:
+        return existing_user_profile
+
+    raise HTTPException(status_code=404, detail=f"UserProfile with telegram_id: {telegram_id} not found")
