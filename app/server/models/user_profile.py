@@ -65,7 +65,7 @@ class UserProfile:
             )
 
     @staticmethod
-    async def get_document_by_parameter(parameter, value):
+    async def get_document_by_parameter(parameter: str, value):
         try:
             document = await database.user_profiles.find_one({parameter: value})
             if document is None:

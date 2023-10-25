@@ -1,11 +1,16 @@
 from fastapi import FastAPI
 from server.database.database import database
 from server.routes.user_profile import router as UserProfileRouter
+from server.routes.dive import router as DiveRouter
 from server.logging.logging import logger
+from fastapi_pagination import add_pagination
 
 app = FastAPI()
 
+add_pagination(app)
+
 app.include_router(UserProfileRouter, tags=["UserProfile"], prefix="/user_profile")
+app.include_router(DiveRouter, tags=["Dive"], prefix="/dive")
 
 
 @app.on_event("startup")
