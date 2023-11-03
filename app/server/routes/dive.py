@@ -37,15 +37,16 @@ async def get_dive_data(telegram_id: int, token: str = Depends(verify_token)):
     Retrieving dive data from database by users telegram_id.
     """
     dives = await Dive.get_documents_by_field("telegram_id", str(telegram_id))
-    print(dives)
+    
     if not dives:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Dives with telegram_id {telegram_id} of Diver not found",
         )
-    for dive in dives:
+    
+    sorted_dives = sorted(dives, key=lambda dive: dive.get('dive_number', None), reverse=True)
+
+    for dive in sorted_dives:
         dive["_id"] = str(dive["_id"])
-    # return JSONResponse(
-    #     content=dives, status_code=status.HTTP_200_OK
-    # )
-    return paginate(dives)
+
+    return paginate(sorted_dives)
