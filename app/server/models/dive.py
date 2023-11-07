@@ -13,6 +13,7 @@ class Dive:
     dive_type: str
     dive_center: str
     dive_buddy: str
+    gas: str = None
     description: str = None
     wetsuit_type: str = None
     wetsuit_thickness: str = None
@@ -33,6 +34,7 @@ class Dive:
         self.dive_type = data_dict.get("dive_type")
         self.dive_center = data_dict.get("dive_center")
         self.dive_buddy = data_dict.get("dive_buddy")
+        self.gas = data_dict.get("gas", None)
         self.description = data_dict.get("description", None)
         self.wetsuit_type = data_dict.get("wetsuit_type", None)
         self.wetsuit_thickness = data_dict.get("wetsuit_thickness", None)

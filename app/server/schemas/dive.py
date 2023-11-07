@@ -10,9 +10,10 @@ class DiveSchema(BaseModel):
     location: str = Field(..., example="White Knight", description="Location of the dive site, where the dive took place. Only letters allowed", max_length=150)
     visibility: str  = Field(None, example="10m", description="Average visibility of the water during the dive. Only letters and numbers allowed", max_length=50)
     water_temperature: float = Field(None, example=27.0, description="Average water temperature during the dive in Celcius. Only numbers allowed.", ge=-40, le=40)
-    dive_type: str = Field(..., example="Boat or Shore", description="Type of dive. Only letters allowed", max_length=50, min_length=3)
-    dive_center: str = Field(..., example="Pyramids Dive Centre", description="Name of the dive center. Only letters allowed", max_length=150, min_length=3)
-    dive_buddy: str = Field(..., example="John Doe", description="Name of the dive buddy. Only letters allowed", max_length=150, min_length=3)
+    dive_type: str = Field(..., example="Boat or Shore", description="Type of dive. Only letters allowed", max_length=50)
+    dive_center: str = Field(..., example="Pyramids Dive Centre", description="Name of the dive center. Only letters allowed", max_length=150)
+    dive_buddy: str = Field(..., example="John Doe", description="Name of the dive buddy. Only letters allowed", max_length=150)
+    gas: str = Field(None, example="Nitrox 22%", description="Type of gas used during the dive. You can describe percents and so on.", max_length=150)
     description: str = Field(None, example="This was a very nice dive. You can describe animals you have seen during the dive or skills you learned", description="Description of the dive. Only letters allowed", max_length=800)
     wetsuit_type: str = Field(None, example="Full or Shorty", description="Type of wetsuit used during the dive. Only letters allowed", max_length=70)
     wetsuit_thickness: str = Field(None, example="3mm", description="Thickness of the wetsuit used during the dive. Only letters and numbers allowed", max_length=50)
@@ -45,6 +46,7 @@ class DiveSchema(BaseModel):
                 "dive_type": "Boat or Shore",
                 "dive_center": "Pyramids Dive Centre",
                 "dive_buddy": "John Doe",
+                "gas": "Nitrox 22%",
                 "description": "This was a very nice dive. You can describe animals you have seen during the dive or skills you learned",
                 "wetsuit_type": "Full or Shorty",
                 "wetsuit_thickness": "3mm",
